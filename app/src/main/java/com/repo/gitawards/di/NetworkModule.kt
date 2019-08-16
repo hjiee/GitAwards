@@ -1,18 +1,19 @@
 package com.repo.gitawards.di
 
 import com.repo.gitawards.BuildConfig
-import com.repo.gitawards.network.ServiceApi
+import com.repo.gitawards.network.api.GithubApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
-                level = if(BuildConfig.DEBUG) {
+                level = if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
                 } else {
                     HttpLoggingInterceptor.Level.NONE
@@ -22,10 +23,19 @@ val networkModule = module {
     }
 
     single {
-        Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://api.github.com/")
+        GsonConverterFactory.create()
+    }
+
+    single {
+        RxJava2CallAdapterFactory.create()
+    }
+
+    single {
+        Retrofit
+            .Builder()
+            .baseUrl(BuildConfig.BASEURL)
+            .addConverterFactory(get())
             .build()
-            .create(ServiceApi::class.java)
+            .create(GithubApi::class.java)
     }
 }
