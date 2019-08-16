@@ -19,6 +19,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String","BASEURL","\"https://api.github.com/\"")
+        }
+        debug {
+            buildConfigField("String","BASEURL","\"https://api.github.com/\"")
+
         }
     }
 
@@ -34,6 +39,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.1.0-alpha07'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha06'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -41,21 +48,24 @@ dependencies {
 
 
 
-    //Retrofit
+    // Retrofit
     def retrofit_version = "2.6.0"
     def logging_version = "3.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation"com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_version"
 
-    //koin
+    // Koin
     def koin_version = '2.0.1'
-    // Koin AndroidX Scope features
     implementation "org.koin:koin-androidx-scope:$koin_version"
-    // Koin AndroidX ViewModel features
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-    // Koin AndroidX Experimental features
     implementation "org.koin:koin-androidx-ext:$koin_version"
+
+    // Rx
+    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
 
 
 }
