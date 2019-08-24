@@ -31,34 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
-
-
-        //        viewModel.getRepository()
-
-//        awardAdapter.addItem(
-//            AwardsEntity(
-//                "",
-//                "효진",
-//                "1",
-//                "1"
-//            )
-//        )
-//        awardAdapter.addItem(
-//            AwardsEntity(
-//                "",
-//                "철수",
-//                "1",
-//                "5"
-//            )
-//        )
-//        awardAdapter.addItem(
-//            AwardsEntity(
-//                "",
-//                "영희",
-//                "1",
-//                "4"
-//            )
-//        )
+        viewModel.getRepository()
     }
 
 

@@ -15,7 +15,7 @@ interface GithubApi {
         @Query("q") q : String,
         @Query("sort") sort : String,
         @Query("order") order : String
-    ) : Call<List<GithubResponse>>
+    ) : Call<GithubResponse>
 
     // repository
     // https://developer.github.com/v3/search/#search-users
@@ -24,5 +24,5 @@ interface GithubApi {
         @Query("q") q : String,
         @Query("sort") sort : String,
         @Query("order") order : String
-    ) : Single<List<GithubResponse>>
+    ) : Single<GithubResponse>
 }

@@ -31,9 +31,9 @@ class SimpleRecyclerAdapter(private val list : List<GithubResponse>) : RecyclerV
         fun onBind(award : GithubResponse, rank : Int) {
             itemView.run {
 //                img_profile.setImageURI(Uri.parse(award.userProfileUrl))
-                tv_name.text = award.items.name
+//                tv_name.text = award.items.name
                 tv_rank.text = rank.toString()
-                tv_star.text = award.items.starCount
+//                tv_star.text = award.items.starCount
             }
         }
     }
