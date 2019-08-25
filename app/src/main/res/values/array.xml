@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="language">
+        <item></item>
+        <item>ABAP</item>
+        <item>ActionScript</item>
+        <item>Ada</item>
+        <item>Apex</item>
+        <item>Assembly language</item>
+        <item>Awk</item>
+        <item>Bash</item>
+        <item>C</item>
+        <item>C#</item>
+        <item>C++</item>
+        <item>COBOL</item>
+        <item>D</item>
+        <item>Dart</item>
+        <item>Delphi/Object Pascal</item>
+        <item>F#</item>
+        <item>Fortran</item>
+        <item>Go</item>
+        <item>Groovy</item>
+        <item>Haskell</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>Julia</item>
+        <item>Kotlin</item>
+        <item>Lisp</item>
+        <item>Logo</item>
+        <item>Lua</item>
+        <item>MATLAB</item>
+        <item>Objective-C</item>
+        <item>Perl</item>
+        <item>PHP</item>
+        <item>PL/SQL</item>
+        <item>PostScript</item>
+        <item>PowerShell</item>
+        <item>Prolog</item>
+        <item>Python</item>
+        <item>R</item>
+        <item>RPG</item>
+        <item>Ruby</item>
+        <item>Rust</item>
+        <item>SAS</item>
+        <item>Scala</item>
+        <item>Scheme</item>
+        <item>Scratch</item>
+        <item>SQL</item>
+        <item>Swift</item>
+        <item>Transact-SQL</item>
+        <item>TypeScript</item>
+        <item>VBScript</item>
+        <item>Visual Basic</item>
+        <item>Visual Basic .NET</item>
+    </array>
+</resources>
