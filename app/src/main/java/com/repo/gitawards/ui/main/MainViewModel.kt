@@ -18,4 +18,8 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     fun getUsers() {
         repository.getUsers()
     }
+
+    fun search() {
+        repository.search()
+    }
 }
