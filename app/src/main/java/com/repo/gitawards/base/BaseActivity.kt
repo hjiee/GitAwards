@@ -13,10 +13,6 @@ abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : A
 
     lateinit var binding : B
 
-//    lateinit var viewModel : R
-
-
-
     val networkModel by inject<GithubApi>()
     val viewModel by viewModel<MainViewModel> ()
 
