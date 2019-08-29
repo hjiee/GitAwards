@@ -2,6 +2,7 @@ package com.repo.gitawards.ui.main
 
 import com.repo.gitawards.base.BaseViewModel
 import com.repo.gitawards.data.GithubRepository
+import com.repo.gitawards.network.NetworkResponse
 
 class MainViewModel(private val repository: GithubRepository) : BaseViewModel() {
 
@@ -12,11 +13,21 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     }
 
     fun getRepository() {
-        repository.getRepository()
+//        repository.getRepository()
     }
 
     fun getUsers() {
         repository.getUsers()
+    }
+
+    fun <T> load() {
+        repository.listAll<T> (
+            success = {
+
+            },
+            failur = {
+
+            })
     }
 
     fun search() {
