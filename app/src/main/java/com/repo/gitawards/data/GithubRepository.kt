@@ -2,6 +2,7 @@ package com.repo.gitawards.data
 
 import com.repo.gitawards.data.source.GithubDataSource
 import com.repo.gitawards.di.networkModule
+import com.repo.gitawards.network.NetworkResponse
 import com.repo.gitawards.network.api.GithubApi
 import com.repo.gitawards.network.model.GithubResponse
 import com.repo.gitawards.util.LogUtil
@@ -22,7 +23,7 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 
     }
 
-    fun getRepository() {
+    fun getRepository(networkResponse: NetworkResponse) {
         // TODO: 2019-08-16 네트워크 통신으로 데이터 가져오기
 
 
@@ -31,12 +32,33 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe({
 //                // Success
+//                networkResponse.success(it)
 //                Loge("success")
 //
 //            }, {
 //                // Falure
 //                Loge("Fail")
 //            })
+
+//        githubApi.getRepositories("language:kotlin", "star", "desc")
+//            .enqueue(object : Callback<GithubResponse> {
+//
+//                override fun onResponse(
+//                    call: Call<GithubResponse>,
+//                    response: Response<GithubResponse>
+//                ) {
+//                    networkResponse.success(response)
+//                    Loge("success : ${response.body()}")
+//                }
+//
+//                override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
+//                    networkResponse.fail()
+//                    Loge("Fail : $t")
+//                }
+//            })
+    }
+
+    fun listAll(success: (Response<GithubResponse>) -> Unit, failur: () -> Unit) {
 
         githubApi.getRepositories("language:kotlin", "star", "desc")
             .enqueue(object : Callback<GithubResponse> {
@@ -45,13 +67,25 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
                     call: Call<GithubResponse>,
                     response: Response<GithubResponse>
                 ) {
-                    LogUtil.Loge("success : ${response.body()}")
-
+                    success(response)
                 }
 
                 override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                    LogUtil.Loge("Fail : $t")
+                    failur()
                 }
+            })
+    }
+
+    fun listAll2(success: (GithubResponse) -> Unit, failur: () -> Unit) {
+        githubApi.getRepositories2("language:kotlin", "star", "desc")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                // Success
+                success(it)
+            }, {
+                // Falure
+                failur()
             })
     }
 

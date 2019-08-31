@@ -33,9 +33,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 adapter = awardAdapter
             }
         }
-        binding.rvGithub.adapter = awardAdapter
-        viewModel.getRepository()
-        awardAdapter.notifyDataSetChanged()
+
+        viewModel.load()
+        viewModel.load2()
+//        viewModel.getRepository()
+//        awardAdapter.notifyDataSetChanged()
 
 
     }
