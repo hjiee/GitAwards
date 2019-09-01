@@ -1,6 +1,7 @@
 package com.repo.gitawards.network.api
 
 import com.repo.gitawards.network.model.GithubResponse
+import com.repo.gitawards.network.model.GithubResponseTest
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -25,4 +26,14 @@ interface GithubApi {
         @Query("sort") sort : String,
         @Query("order") order : String
     ) : Single<GithubResponse>
+
+
+    // repository
+    // https://developer.github.com/v3/search/#search-users
+    @GET("search/repositories")
+    fun getRepositoriesTest(
+        @Query("q") q : String,
+        @Query("sort") sort : String,
+        @Query("order") order : String
+    ) : Call<List<GithubResponseTest>>
 }
