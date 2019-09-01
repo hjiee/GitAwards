@@ -9,36 +9,26 @@ import com.repo.gitawards.data.entity.AwardsEntity
 import com.repo.gitawards.databinding.FragmentMainBinding
 import com.repo.gitawards.network.model.GithubResponse
 import com.repo.gitawards.util.LogUtil
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    val awardAdapter = SimpleRecyclerAdapter(
-        mutableListOf(
-            AwardsEntity("1", "홍길동", "1", "1"),
-            AwardsEntity("1", "김춘향", "1", "1"),
-            AwardsEntity("1","신짱구","1","1"),
-            AwardsEntity("1","오징어","1","1")
-        )
-    )
+    val awardAdapter2 = SimpleRecyclerAdapter<GithubResponse>(R.layout.recycler_item)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.run {
+            vm = viewModel
             rv_github.apply {
-                adapter = awardAdapter
+                adapter = awardAdapter2
             }
         }
 
-        viewModel.load()
-        viewModel.load2()
-//        viewModel.getRepository()
-//        awardAdapter.notifyDataSetChanged()
-
+//        viewModel.load()
+        viewModel.loadTest()
+//        viewModel.load2()
 
     }
 

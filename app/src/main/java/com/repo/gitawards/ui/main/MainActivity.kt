@@ -20,10 +20,10 @@ import retrofit2.Response
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         replaceFragment(MainFragment.newInstance(),binding.flContainer.id)
+
 
     }
 }

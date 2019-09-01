@@ -7,7 +7,7 @@ class LogUtil {
     companion object {
         fun Loge(message : String) {
             if(BuildConfig.DEBUG) {
-                Log.e("LogUitl",message)
+                Log.e("LogUtil",message)
             }
         }
     }

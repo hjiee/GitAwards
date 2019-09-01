@@ -12,6 +12,23 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        some()
     }
+
+    fun some() {
+        val str : String? = getString()
+
+        val answer : Int
+
+        run{
+            answer = 42
+        }
+
+
+
+        if(!str.isNullOrEmpty()) {
+            println(str.length)
+        }
+    }
+    fun getString() : String? = null
 }

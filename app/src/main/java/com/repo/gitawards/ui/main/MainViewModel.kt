@@ -1,36 +1,69 @@
 package com.repo.gitawards.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.repo.gitawards.R
+import com.repo.gitawards.SimpleRecyclerAdapter
 import com.repo.gitawards.base.BaseViewModel
 import com.repo.gitawards.data.GithubRepository
-import com.repo.gitawards.network.NetworkResponse
+import com.repo.gitawards.network.model.GithubResponse
+import com.repo.gitawards.network.model.GithubResponseTest
+import com.repo.gitawards.util.LogUtil
 
 class MainViewModel(private val repository: GithubRepository) : BaseViewModel() {
 
-//    val list = MutableLiveData<List<GithubResponse>>()
+    private val _githubInfo = MutableLiveData<List<GithubResponse>>()
+    val githubInfo : LiveData<List<GithubResponse>> get() = _githubInfo
 
-    fun getRank() {
-        repository.getRank()
-    }
 
-    fun getRepository() {
-//        repository.getRepository()
-    }
+    private val _githubInfoTest = MutableLiveData<List<GithubResponseTest>>()
+    val githubInfoTest : LiveData<List<GithubResponseTest>> get() = _githubInfoTest
 
-    fun getUsers() {
-        repository.getUsers()
-    }
 
-    fun <T> load() {
-        repository.listAll<T> (
-            success = {
+    fun load() {
+        val timeS = System.currentTimeMillis()
 
+        repository.listLoad (
+            success = { data ->
+                val timeE = System.currentTimeMillis()
+                val time = timeE - timeS
+                LogUtil.Loge("NO RX($time) : $data")
+                _githubInfo.value = data
             },
-            failur = {
+            failure = {
+                LogUtil.Loge("NO RX Fail : $it")
+            })
+    }
+
+    fun load2() {
+        val timeS = System.currentTimeMillis()
+        repository.listLoad2(
+            success = { data ->
+                val timeE = System.currentTimeMillis()
+                val time = timeE - timeS
+                LogUtil.Loge("RX($time) : ${data}")
+
+//                _githubInfo.value = data
+            },
+            failure = {
+                LogUtil.Loge("RX Fail : $it")
 
             })
     }
 
-    fun search() {
-        repository.search()
+
+    fun loadTest() {
+        val timeS = System.currentTimeMillis()
+
+        repository.listLoadTest (
+            success = { data ->
+                val timeE = System.currentTimeMillis()
+                val time = timeE - timeS
+                LogUtil.Loge("NO RX($time) : $data")
+                _githubInfoTest.value = data
+            },
+            failure = {
+                LogUtil.Loge("NO RX Fail : $it")
+            })
     }
 }
