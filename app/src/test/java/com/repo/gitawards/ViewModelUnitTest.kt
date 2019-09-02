@@ -5,6 +5,7 @@ import com.repo.gitawards.network.api.GithubApi
 import com.repo.gitawards.ui.main.MainViewModel
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
 
 class ViewModelUnitTest {
 
@@ -13,11 +14,15 @@ class ViewModelUnitTest {
 
     @Before
     fun setUp() {
-        viewModel = MainViewModel(GithubRepository(githubApi))
+//        Mockito.verify(viewModel)
+
+
+
+//        viewModel = MainViewModel(GithubRepository(githubApi))
     }
     @Test
     fun main() {
 
-        viewModel.getRepository()
+
     }
 }
