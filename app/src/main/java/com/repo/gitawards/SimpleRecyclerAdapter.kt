@@ -33,10 +33,10 @@ class SimpleRecyclerAdapter<ITEM : Any>(private val layoutResId : Int) :
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = items.size ?: 0
+    override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.onBind(items[position] as GithubResponse.Items, position + 1)
+        holder.onBind(items[position] as GithubResponse.Items, position + 1)
     }
 
     class ViewHolder(private val binding: RecyclerItemBinding) :

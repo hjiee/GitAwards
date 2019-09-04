@@ -27,8 +27,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
 //        viewModel.load()
-        viewModel.loadTest()
-//        viewModel.load2()
+        viewModel.load2()
 
     }
 

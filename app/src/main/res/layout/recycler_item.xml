@@ -10,8 +10,9 @@
             type="com.repo.gitawards.data.entity.AwardsEntity" />
 
         <variable
-            name="respose"
+            name="reponse"
             type="com.repo.gitawards.network.model.GithubResponse.Items" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -33,7 +34,7 @@
 
             <ImageView
                 android:id="@+id/img_profile"
-                loadUrl="@{respose.htmlUrl}"
+                loadUrl="@{reponse.htmlUrl}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -46,6 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{reponse.name}"
                 android:hint="ueser name" />
 
             <TextView
@@ -79,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="stars"
-                    android:text="@{respose.starCount}"
+                    android:text="@{reponse.starCount}"
                     app:layout_constraintTop_toTopOf="@+id/iv_star"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_star"
                     app:layout_constraintLeft_toRightOf="@+id/iv_star"

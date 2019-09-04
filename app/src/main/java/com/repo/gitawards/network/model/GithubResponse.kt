@@ -17,6 +17,7 @@ data class GithubResponse(
         @SerializedName("stargazers_count")
         val starCount: String
     )
+
 }
 
 
