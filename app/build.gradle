@@ -78,6 +78,15 @@ dependencies {
     def lifecycle_version = "1.1.0"
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
+    // Paging
+    def paging_version = "2.1.0"
+    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+    // alternatively - without Android dependencies for testing
+//    testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+    // optional - RxJava support
+//    implementation "androidx.paging:paging-rxjava2:$paging_version" // For Kotlin use paging-rxjava2-ktx
+
+
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 }
