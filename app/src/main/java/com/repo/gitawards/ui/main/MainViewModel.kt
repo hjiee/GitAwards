@@ -1,5 +1,6 @@
 package com.repo.gitawards.ui.main
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.repo.gitawards.base.BaseViewModel
@@ -12,6 +13,7 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
 
     private val _githubInfo = MutableLiveData<List<Items>>()
     val githubInfo : LiveData<List<Items>> get() = _githubInfo
+
 
     private val _rank = MutableLiveData<String>()
     val rank : LiveData<String> get() = _rank
@@ -32,10 +34,11 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
             })
     }
 
-    fun load2() {
+    fun load2(input : String) {
         val timeS = System.currentTimeMillis()
 
         repository.listLoad2(
+            input = input,
             success = { data ->
                 val timeE = System.currentTimeMillis()
                 val time = timeE - timeS
@@ -46,5 +49,10 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
                 LogUtil.Loge("RX Fail : $it")
 
             })
+    }
+
+    fun onItemClick(position : Int) {
+
+
     }
 }
