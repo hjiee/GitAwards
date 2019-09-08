@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.databinding.library.baseAdapters.BR
+import androidx.databinding.library.baseAdapters.BR.vm
 import com.repo.gitawards.R
 import com.repo.gitawards.BaseRecyclerView
 import com.repo.gitawards.base.BaseFragment
@@ -23,7 +24,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.srlRefresh.setOnRefreshListener {
-            viewModel.load2()
+            viewModel.load2("kotlin")
             srl_refresh.isRefreshing = false
         }
 
@@ -33,13 +34,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 adapter = object : BaseRecyclerView.Adapter<GithubResponse,RecyclerItemBinding>(
                     R.layout.recycler_item,
                     BR.response
-                ) { }
+                ) {
+                    override fun onCreateViewHolder(
+                        parent: ViewGroup,
+                        viewType: Int
+                    ): BaseRecyclerView.ViewHolder<RecyclerItemBinding> {
+                        return super.onCreateViewHolder(parent, viewType).apply {
+                            binding.tvRank.text = "1"
+                        }
+                    }
+                }
             }
         }
 
 
 //        viewModel.load()
-        viewModel.load2()
+        viewModel.load2("java")
+
 
 
     }
