@@ -14,7 +14,7 @@ abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : A
     lateinit var binding : B
 
     val networkModel by inject<GithubApi>()
-    val viewModel by viewModel<MainViewModel> ()
+    val viewModel by inject<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
