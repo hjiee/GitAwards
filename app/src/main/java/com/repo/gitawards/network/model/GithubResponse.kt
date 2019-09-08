@@ -10,23 +10,21 @@ data class GithubResponse(
     val items: List<Items>
 ) {
     data class Items(
-        @SerializedName("name")
-        val name : String,
-        @SerializedName("html_url")
-        val htmlUrl : String,
+        @SerializedName("full_name")
+        val repoName : String,
         @SerializedName("stargazers_count")
-        val starCount: String
+        val starCount: String,
+        @SerializedName("forks_count")
+        val forkCount: String,
+        @SerializedName("owner")
+        val owner : Owner
+    )
+    data class Owner(
+        @SerializedName("avatar_url")
+        val avatar_url : String,
+        @SerializedName("login")
+        val userName : String
+
     )
 
 }
-
-
-fun GithubResponse.toData() =
-    items.map {
-        AwardsEntity(
-            userProfileUrl = it.htmlUrl,
-            star = it.starCount,
-            userName = it.name,
-            rank = ""
-        )
-    }
