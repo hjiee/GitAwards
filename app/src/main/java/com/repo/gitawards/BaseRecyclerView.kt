@@ -28,16 +28,7 @@ class BaseRecyclerView {
                 parent = parent,
                 bindingVariableId = bindingVariableId
             ) { }
-//        {
-//            val binding = DataBindingUtil.inflate<RecyclerItemBinding>(
-//                LayoutInflater.from(parent.context),
-//                layoutResId,
-//                parent,
-//                false
-//            )
-//
-//            return object : ViewHolder<B>(binding,bindingVariableId) {}
-//        }
+
 
         override fun getItemCount(): Int = items.size
 
@@ -62,6 +53,7 @@ class BaseRecyclerView {
 
         init {
             itemView.setOnClickListener {
+
                 Toast.makeText(binding.root.context, adapterPosition.toString(), Toast.LENGTH_SHORT).show();
             }
         }
