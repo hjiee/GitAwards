@@ -6,13 +6,13 @@ import io.reactivex.disposables.Disposable
 
 interface GithubDataSource {
 
-    fun listLoad(
-        success: (List<Items>?) -> Unit,
-        failure: (String) -> Unit
-    )
+//    fun listLoad(
+//        success: (List<Items>?) -> Unit,
+//        failure: (String) -> Unit
+//    )
 
-    fun listLoad2(
-        input : String,
+    fun listLoad(
+        type : String,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable

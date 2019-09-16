@@ -19,26 +19,26 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     val rank : LiveData<String> get() = _rank
 
 
-    fun load() {
+//    fun loadData() {
+//        val timeS = System.currentTimeMillis()
+//
+//        repository.listLoad (
+//            success = { data ->
+//                val timeE = System.currentTimeMillis()
+//                val time = timeE - timeS
+//                LogUtil.Loge("NO RX($time) : $data")
+//                _githubInfo.value = data
+//            },
+//            failure = {
+//                LogUtil.Loge("NO RX Fail : $it")
+//            })
+//    }
+
+    fun load(language : String) {
         val timeS = System.currentTimeMillis()
 
-        repository.listLoad (
-            success = { data ->
-                val timeE = System.currentTimeMillis()
-                val time = timeE - timeS
-                LogUtil.Loge("NO RX($time) : $data")
-                _githubInfo.value = data
-            },
-            failure = {
-                LogUtil.Loge("NO RX Fail : $it")
-            })
-    }
-
-    fun load2(input : String) {
-        val timeS = System.currentTimeMillis()
-
-        repository.listLoad2(
-            input = input,
+        repository.listLoad(
+            type = language,
             success = { data ->
                 val timeE = System.currentTimeMillis()
                 val time = timeE - timeS
@@ -49,6 +49,11 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
                 LogUtil.Loge("RX Fail : $it")
 
             })
+
+    }
+
+    fun refresh() {
+
     }
 
     fun onItemClick(position : Int) {

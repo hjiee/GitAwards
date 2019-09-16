@@ -13,33 +13,33 @@ import retrofit2.Response
 
 class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 
+//    override fun listLoad(
+//        success: (List<Items>?) -> Unit,
+//        failure: (String) -> Unit
+//    ) {
+//        githubApi.getRepositories("language:kotlin", "star", "desc")
+//            .enqueue(object : Callback<GithubResponse> {
+//                override fun onResponse(
+//                    call: Call<GithubResponse>,
+//                    response: Response<GithubResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        success(response.body()?.items)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
+//                    failure(t.toString())
+//                }
+//            })
+//    }
+
     override fun listLoad(
-        success: (List<Items>?) -> Unit,
-        failure: (String) -> Unit
-    ) {
-        githubApi.getRepositories("language:kotlin", "star", "desc")
-            .enqueue(object : Callback<GithubResponse> {
-                override fun onResponse(
-                    call: Call<GithubResponse>,
-                    response: Response<GithubResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        success(response.body()?.items)
-                    }
-                }
-
-                override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                    failure(t.toString())
-                }
-            })
-    }
-
-    override fun listLoad2(
-        input : String,
+        type : String,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable {
-        return githubApi.getRepositories2("language:${input}", "star", "desc")
+        return githubApi.getRepositories2("language:${type}", "star", "desc")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
