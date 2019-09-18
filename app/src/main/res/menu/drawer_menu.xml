@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/language"
         android:title="Language">
     </item>
 
     <item
+        android:id="@+id/repository"
         android:title="Repository">
     </item>
 
     <item
+        android:id="@+id/user"
         android:title="User">
     </item>
 </menu>
