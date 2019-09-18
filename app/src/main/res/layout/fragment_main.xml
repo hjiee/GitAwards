@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="vm"
@@ -16,13 +17,31 @@
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
+        <include
+            android:id="@+id/include_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/appbar_main" />
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/not_found"
+            android:visibility="@{vm.resultIsEmpty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include_appbar"/>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl_refresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/include_appbar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_github"

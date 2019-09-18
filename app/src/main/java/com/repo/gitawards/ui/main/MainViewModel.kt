@@ -14,9 +14,14 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     private val _githubInfo = MutableLiveData<List<Items>>()
     val githubInfo : LiveData<List<Items>> get() = _githubInfo
 
+    private val _closeVisiable = MutableLiveData<Boolean>()
+    val closeVisiable : LiveData<Boolean> get() = _closeVisiable
 
     private val _rank = MutableLiveData<String>()
     val rank : LiveData<String> get() = _rank
+
+    private val _resultIsEmpty = MutableLiveData<Boolean>()
+    val resultIsEmpty : LiveData<Boolean> get() = _resultIsEmpty
 
 
 //    fun loadData() {
@@ -44,18 +49,25 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
                 val time = timeE - timeS
                 LogUtil.Loge("RX($time) : ${data}")
                 _githubInfo.value = data
+                _resultIsEmpty.value = false
             },
             failure = {
                 LogUtil.Loge("RX Fail : $it")
-
+                _githubInfo.value = emptyList()
+                _resultIsEmpty.value = true
             })
 
     }
+
+    fun toggleVisiable() : Boolean = _closeVisiable.value?.not() ?: false
 
     fun refresh() {
 
     }
 
+    fun onClick() {
+
+    }
     fun onItemClick(position : Int) {
 
 

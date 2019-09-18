@@ -69,10 +69,38 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
         }
 
+        // 검색
+        binding.includeAppbar.edtSearchInput.apply {
+            setOnEditorActionListener { textView, i, keyEvent ->
+                viewModel.load(binding.includeAppbar.edtSearchInput.text.toString())
+                true
+            }
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(char: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if(char.isNullOrEmpty()) binding.includeAppbar.ibClear.visibility = View.INVISIBLE
+                    else binding.includeAppbar.ibClear.visibility = View.VISIBLE
+                }
+            })
+        }
+        // x 버튼 클릭
+        binding.includeAppbar.ibClear.setOnClickListener {
+            binding.includeAppbar.edtSearchInput.setText("")
+        }
+
         progressOn()
         viewModel.load("java")
     }
 
+    fun search(input : String) {
+        viewModel.load(input)
+
+    }
 
 
     companion object {
