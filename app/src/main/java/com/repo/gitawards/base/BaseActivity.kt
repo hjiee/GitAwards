@@ -2,16 +2,18 @@ package com.repo.gitawards.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.repo.gitawards.network.api.GithubApi
 import com.repo.gitawards.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : AppCompatActivity() {
 
-    lateinit var binding : B
+    lateinit var binding: B
 
     val networkModel by inject<GithubApi>()
     val viewModel by inject<MainViewModel>()
@@ -26,6 +28,12 @@ abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : A
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (binding.root.drawer.isDrawerOpen(GravityCompat.START)) {
+            binding.root.drawer.closeDrawer(GravityCompat.START)
+        }
+        else {
+            super.onBackPressed()
+        }
     }
+
 }
