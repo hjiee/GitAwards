@@ -38,16 +38,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun initView() {
 
-        // 검색
-//        binding.includeAppbar.edtSearchInput.setOnEditorActionListener { textView, i, keyEvent ->
-//            viewModel.load(binding.includeAppbar.edtSearchInput.text.toString())
-////            MainFragment.newInstance().search(binding.includeAppbar.edtSearchInput.text.toString())
-//            true
-//        }
-
-//        binding.drawer.openDrawer(GravityCompat.START)
-//        Loge(binding.drawer.isDrawerOpen(GravityCompat.START).toString())
-
         // 메뉴 선택
         binding.naviView.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -75,24 +65,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
     fun close() {
         binding.drawer.closeDrawer(GravityCompat.END)
-    }
-
-    fun test() {
-        setSupportActionBar(MainFragment.newInstance().binding.includeAppbar.toolbar)
-
-        // 드로어레이아웃 토글
-        ActionBarDrawerToggle(
-            this,
-            binding.drawer,
-            MainFragment.newInstance().binding.includeAppbar.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        ).let {
-            binding.drawer.addDrawerListener(it)
-            it.syncState()
-            it.drawerArrowDrawable = DrawerArrowDrawable(this).apply {
-                color = resources.getColor(R.color.colorDark, null)
-            }
-        }
     }
 }
