@@ -12,16 +12,29 @@ import com.repo.gitawards.util.LogUtil
 class MainViewModel(private val repository: GithubRepository) : BaseViewModel() {
 
     private val _githubInfo = MutableLiveData<List<Items>>()
-    val githubInfo : LiveData<List<Items>> get() = _githubInfo
+    val githubInfo: LiveData<List<Items>> get() = _githubInfo
 
     private val _closeVisiable = MutableLiveData<Boolean>()
-    val closeVisiable : LiveData<Boolean> get() = _closeVisiable
+    val closeVisiable: LiveData<Boolean> get() = _closeVisiable
 
     private val _rank = MutableLiveData<String>()
-    val rank : LiveData<String> get() = _rank
+    val rank: LiveData<String> get() = _rank
 
-    private val _resultIsEmpty = MutableLiveData<Boolean>()
-    val resultIsEmpty : LiveData<Boolean> get() = _resultIsEmpty
+    // 결과값이 null이면 true, null이 아니면 false
+    private val _stateIsEmpty = MutableLiveData<Boolean>()
+    val stateIsEmpty: LiveData<Boolean> get() = _stateIsEmpty
+
+    // edit text가 focus를 가지고 있으면 true, 아니면 false
+    private val _stateHasFocus = MutableLiveData<Boolean>()
+    val stateHasFocus: LiveData<Boolean> get() = _stateHasFocus
+
+    // edit text가 empty이면 true, 아니면 false
+    private val _stateIsTextEmpty = MutableLiveData<Boolean>()
+    val stateIsTextEmpty: LiveData<Boolean> get() = _stateIsTextEmpty
+
+    //
+    private val _stateIsTextVisibility = MutableLiveData<Boolean>()
+    val stateIsTextVisibility : LiveData<Boolean> get() = _stateIsTextVisibility
 
 
 //    fun loadData() {
@@ -39,7 +52,7 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
 //            })
 //    }
 
-    fun load(language : String) {
+    fun load(language: String) {
         val timeS = System.currentTimeMillis()
 
         repository.listLoad(
@@ -49,27 +62,33 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
                 val time = timeE - timeS
                 LogUtil.Loge("RX($time) : ${data}")
                 _githubInfo.value = data
-                _resultIsEmpty.value = false
+                _stateIsEmpty.value = false
             },
             failure = {
                 LogUtil.Loge("RX Fail : $it")
                 _githubInfo.value = emptyList()
-                _resultIsEmpty.value = true
+                _stateIsEmpty.value = true
             })
-
     }
 
-    fun toggleVisiable() : Boolean = _closeVisiable.value?.not() ?: false
+    fun changedFocus() {
+        when(_stateHasFocus.value) {
+            null -> _stateHasFocus.value = false
+            else -> _stateHasFocus.value = _stateHasFocus.value?.not()
 
-    fun refresh() {
-
+        }
     }
-
-    fun onClick() {
-
+    fun changedEditText() {
+        when(_stateIsTextVisibility.value) {
+            null -> _stateIsTextVisibility.value = true
+            else -> _stateIsTextVisibility.value = _stateIsTextVisibility.value?.not()
+        }
     }
-    fun onItemClick(position : Int) {
-
-
+    fun changedText() {
+        when(_stateIsTextEmpty.value) {
+            null -> _stateIsTextEmpty.value = true
+            true -> _stateIsTextEmpty.value = true
+            false -> _stateIsTextEmpty.value = false
+        }
     }
 }

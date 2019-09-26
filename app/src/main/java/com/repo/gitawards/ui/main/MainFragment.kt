@@ -4,35 +4,27 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
-import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import com.repo.gitawards.BaseRecyclerView
 import com.repo.gitawards.R
 import com.repo.gitawards.base.BaseFragment
-import com.repo.gitawards.databinding.ActivityMainBinding
+import com.repo.gitawards.databinding.AppbarMainBinding
 import com.repo.gitawards.databinding.FragmentMainBinding
 import com.repo.gitawards.databinding.RecyclerItemBinding
 import com.repo.gitawards.network.model.GithubResponse
 import com.repo.gitawards.util.LogUtil.Companion.Loge
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.appbar_main.*
+import com.repo.gitawards.util.hideKeyboard
+import com.repo.gitawards.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.koin.android.ext.android.bind
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    lateinit var activityMainBinding: ActivityMainBinding
+    lateinit var appBarBinding : AppbarMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,21 +32,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        activityMainBinding =
-            DataBindingUtil.inflate(inflater, R.layout.activity_main, container, false)
-
+        appBarBinding = DataBindingUtil.inflate(inflater,R.layout.appbar_main,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.srlRefresh.setOnRefreshListener {
-            Loge(activityMainBinding.drawer.isDrawerOpen(GravityCompat.START).toString())
 
-//            viewModel.load("kotlin")
-            srl_refresh.isRefreshing = false
+        // 이벤트 설정
+        initEventHandler()
+        // 바인딩 설정
+        initBinding()
+//        progressOn()
+        viewModel.load("java")
+    }
+
+    fun initEventHandler() {
+        refresh()
+        buttonClick()
+        editInputChanged()
+    }
+
+    fun initBinding() {
+        appBarBinding.run {
+            vm = viewModel
         }
-
         binding.run {
             vm = viewModel
             rv_github.apply {
@@ -73,42 +75,53 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
             }
         }
+    }
 
-        // 검색
+    fun editInputChanged() {
+        // 검색버튼
         binding.includeAppbar.edtSearchInput.apply {
+            // 입력 완료 이벤트
             setOnEditorActionListener { textView, i, keyEvent ->
                 viewModel.load(binding.includeAppbar.edtSearchInput.text.toString())
                 true
             }
+            // 포커스 변경 이벤트
+            setOnFocusChangeListener { view, hasFocus ->
+                viewModel.changedFocus()
+                Loge(viewModel.stateHasFocus.value.toString())
+            }
+            // 텍스트 변경 이벤트
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
+
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
 
                 override fun onTextChanged(char: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    when (char.isNullOrEmpty()) {
-                        // 입력된 텍스트가 없을때
-                        true -> {
-                            binding.includeAppbar.ibClear.visibility = View.INVISIBLE
-                            binding.includeAppbar.ibSearch.visibility = View.VISIBLE
-                        }
-                        // 입력된 텍스트가 있을때
-                        false -> {
-                            binding.includeAppbar.ibClear.visibility = View.VISIBLE
-                            binding.includeAppbar.ibSearch.visibility = View.INVISIBLE
-
-                        }
-                    }
+                   viewModel.changedText()
                 }
             })
         }
+    }
 
+    fun refresh() {
+        binding.srlRefresh.setOnRefreshListener {
+            //viewModel.load("kotlin")
+            srl_refresh.isRefreshing = false
+        }
+    }
 
+    fun buttonClick() {
         // x 버튼 클릭
         binding.includeAppbar.ibClear.setOnClickListener {
-            binding.includeAppbar.edtSearchInput.setText("")
+            binding.includeAppbar.edtSearchInput.run {
+                setText("")
+                clearFocus()
+                visibility = View.INVISIBLE
+                context?.hideKeyboard(it)
+            }
         }
         // 토글 버튼 클릭
         binding.includeAppbar.ibToggle.setOnClickListener {
@@ -117,18 +130,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         // 검색 버튼 클릭
         binding.includeAppbar.ibSearch.setOnClickListener {
             binding.includeAppbar.edtSearchInput.let {
-                it.visibility = View.VISIBLE
-                it.isFocusableInTouchMode = true
+//                it.visibility = View.VISIBLE
+                viewModel.changedEditText()
                 it.requestFocus()
-                (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
-                    it,
-                    0
-                )
+                context?.showKeyboard(binding.includeAppbar.edtSearchInput)
             }
         }
-
-//        progressOn()
-        viewModel.load("java")
     }
 
     companion object {
@@ -139,7 +146,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
     }
-
 }
 
 
