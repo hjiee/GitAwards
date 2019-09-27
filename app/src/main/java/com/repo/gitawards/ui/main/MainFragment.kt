@@ -21,20 +21,9 @@ import com.repo.gitawards.util.LogUtil.Companion.Loge
 import com.repo.gitawards.util.hideKeyboard
 import com.repo.gitawards.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.koin.android.ext.android.bind
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
-
-    lateinit var appBarBinding : AppbarMainBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        appBarBinding = DataBindingUtil.inflate(inflater,R.layout.appbar_main,container,false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,9 +43,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     fun initBinding() {
-        appBarBinding.run {
-            vm = viewModel
-        }
         binding.run {
             vm = viewModel
             rv_github.apply {
@@ -100,7 +86,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
 
                 override fun onTextChanged(char: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                   viewModel.changedText()
+                   when(char.isNullOrEmpty()) {
+                       true -> binding.includeAppbar.isEmpty = true
+                       false -> binding.includeAppbar.isEmpty = false
+                   }
                 }
             })
         }
@@ -118,24 +107,35 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.includeAppbar.ibClear.setOnClickListener {
             binding.includeAppbar.edtSearchInput.run {
                 setText("")
-                clearFocus()
-                visibility = View.INVISIBLE
-                context?.hideKeyboard(it)
             }
         }
         // 토글 버튼 클릭
         binding.includeAppbar.ibToggle.setOnClickListener {
-            (activity as MainActivity).open()
+            when(binding.includeAppbar.hasFocus) {
+                true -> {
+                    setAll()
+                    context?.hideKeyboard(binding.includeAppbar.edtSearchInput) // 키보드를 숨긴다.
+                }
+                false -> {
+                    (activity as MainActivity).open()
+                }
+            }
         }
         // 검색 버튼 클릭
         binding.includeAppbar.ibSearch.setOnClickListener {
+            binding.includeAppbar.hasFocus = true
             binding.includeAppbar.edtSearchInput.let {
-//                it.visibility = View.VISIBLE
-                viewModel.changedEditText()
+                it.visibility = View.VISIBLE
                 it.requestFocus()
-                context?.showKeyboard(binding.includeAppbar.edtSearchInput)
+                it.isFocusableInTouchMode = true
+                context?.showKeyboard(it)
             }
         }
+    }
+    fun setAll() {
+        binding.includeAppbar.edtSearchInput.setText("")
+        binding.includeAppbar.hasFocus = false
+        binding.includeAppbar.isEmpty = true
     }
 
     companion object {
