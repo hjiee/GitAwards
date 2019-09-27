@@ -31,11 +31,11 @@ open class BaseFragment<B : ViewDataBinding>(private val layoutId : Int) : Fragm
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding = DataBindingUtil.inflate(inflater,layoutId,container,false)
-
-        LayoutInflater.from(binding.root.context).inflate(R.layout.loading,container,false).let {
-            lottie = it.findViewById(R.id.lottie_loading)
-            lottie.playAnimation()
-        }
+        binding.lifecycleOwner = this
+//        LayoutInflater.from(binding.root.context).inflate(R.layout.loading,container,false).let {
+//            lottie = it.findViewById(R.id.lottie_loading)
+//            lottie.playAnimation()
+//        }
 
 
         return binding.root

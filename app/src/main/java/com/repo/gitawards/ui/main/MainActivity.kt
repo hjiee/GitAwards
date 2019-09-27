@@ -37,15 +37,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     fun initView() {
-
         // 메뉴 선택
         binding.naviView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.language -> {
+
                 }
                 R.id.repository -> {
+
                 }
                 R.id.user -> {
+
                 }
             }
 
@@ -58,11 +60,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
 
-
-
     fun open() {
         binding.drawer.openDrawer(GravityCompat.START)
     }
+
     fun close() {
         binding.drawer.closeDrawer(GravityCompat.END)
     }

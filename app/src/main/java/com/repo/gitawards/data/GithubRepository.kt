@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 
-//    override fun listLoad(
+//    fun listLoad(
 //        success: (List<Items>?) -> Unit,
 //        failure: (String) -> Unit
 //    ) {
@@ -23,6 +23,7 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 //                    call: Call<GithubResponse>,
 //                    response: Response<GithubResponse>
 //                ) {
+//
 //                    if (response.isSuccessful) {
 //                        success(response.body()?.items)
 //                    }

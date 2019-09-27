@@ -33,7 +33,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         // 바인딩 설정
         initBinding()
 //        progressOn()
-        viewModel.load("java")
+        viewModel.load("")
     }
 
     fun initEventHandler() {
@@ -55,7 +55,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerItemBinding> {
                         return super.onCreateViewHolder(parent, viewType).apply {
-                            binding.tvRank.text = "1"
+//
                         }
                     }
                 }
@@ -69,6 +69,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             // 입력 완료 이벤트
             setOnEditorActionListener { textView, i, keyEvent ->
                 viewModel.load(binding.includeAppbar.edtSearchInput.text.toString())
+                context?.hideKeyboard(textView)
                 true
             }
             // 포커스 변경 이벤트

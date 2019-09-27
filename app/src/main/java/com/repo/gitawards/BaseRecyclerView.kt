@@ -53,7 +53,6 @@ class BaseRecyclerView {
 
         init {
             itemView.setOnClickListener {
-
                 Toast.makeText(binding.root.context, adapterPosition.toString(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -61,6 +60,7 @@ class BaseRecyclerView {
 
         fun onBind(item: Any?) {
             bindingVariableId?.let {
+                itemView.tv_rank.text = adapterPosition.plus(1).toString()
                 binding.setVariable(bindingVariableId,item)
             }
         }
