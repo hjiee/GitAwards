@@ -1,11 +1,9 @@
 package com.repo.gitawards.ui.main
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.repo.gitawards.base.BaseViewModel
 import com.repo.gitawards.data.GithubRepository
-import com.repo.gitawards.data.entity.AwardsEntity
 import com.repo.gitawards.network.model.GithubResponse.Items
 import com.repo.gitawards.util.LogUtil
 
@@ -26,15 +24,8 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
 
     // edit text가 focus를 가지고 있으면 true, 아니면 false
     private val _stateHasFocus = MutableLiveData<Boolean>()
-    val stateHasFocus: LiveData<Boolean> get() = _stateHasFocus
+    val stateHasFocus: LiveData<Boolean> get() = _stateHasFocus.apply { false }
 
-    // edit text가 empty이면 true, 아니면 false
-    private val _stateIsTextEmpty = MutableLiveData<Boolean>()
-    val stateIsTextEmpty: LiveData<Boolean> get() = _stateIsTextEmpty
-
-    //
-    private val _stateIsTextVisibility = MutableLiveData<Boolean>()
-    val stateIsTextVisibility : LiveData<Boolean> get() = _stateIsTextVisibility
 
 
 //    fun loadData() {
@@ -72,23 +63,10 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     }
 
     fun changedFocus() {
-        when(_stateHasFocus.value) {
+        when (_stateHasFocus.value) {
             null -> _stateHasFocus.value = false
             else -> _stateHasFocus.value = _stateHasFocus.value?.not()
 
-        }
-    }
-    fun changedEditText() {
-        when(_stateIsTextVisibility.value) {
-            null -> _stateIsTextVisibility.value = true
-            else -> _stateIsTextVisibility.value = _stateIsTextVisibility.value?.not()
-        }
-    }
-    fun changedText() {
-        when(_stateIsTextEmpty.value) {
-            null -> _stateIsTextEmpty.value = true
-            true -> _stateIsTextEmpty.value = true
-            false -> _stateIsTextEmpty.value = false
         }
     }
 }
