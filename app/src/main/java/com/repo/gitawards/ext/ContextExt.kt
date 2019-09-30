@@ -1,4 +1,4 @@
-package com.repo.gitawards.util
+package com.repo.gitawards.ext
 
 import android.content.Context
 import android.view.View
