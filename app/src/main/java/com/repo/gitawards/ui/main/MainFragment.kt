@@ -1,27 +1,21 @@
 package com.repo.gitawards.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import com.repo.gitawards.BaseRecyclerView
 import com.repo.gitawards.R
 import com.repo.gitawards.base.BaseFragment
-import com.repo.gitawards.databinding.AppbarMainBinding
 import com.repo.gitawards.databinding.FragmentMainBinding
 import com.repo.gitawards.databinding.RecyclerItemBinding
 import com.repo.gitawards.network.model.GithubResponse
 import com.repo.gitawards.util.LogUtil.Companion.Loge
-import com.repo.gitawards.util.hideKeyboard
-import com.repo.gitawards.util.showKeyboard
+import com.repo.gitawards.ext.hideKeyboard
+import com.repo.gitawards.ext.showKeyboard
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.koin.android.ext.android.bind
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
