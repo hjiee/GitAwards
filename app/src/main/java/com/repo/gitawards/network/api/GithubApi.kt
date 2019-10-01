@@ -24,7 +24,8 @@ interface GithubApi {
     fun getRepositories2(
         @Query("q") q : String,
         @Query("sort") sort : String,
-        @Query("order") order : String
+        @Query("order") order : String,
+        @Query("page") page : Int
     ) : Single<GithubResponse>
 
 }

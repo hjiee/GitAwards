@@ -13,6 +13,7 @@ interface GithubDataSource {
 
     fun listLoad(
         type : String,
+        page : Int,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable

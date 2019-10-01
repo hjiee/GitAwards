@@ -6,6 +6,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.library.baseAdapters.BR
+import androidx.recyclerview.widget.RecyclerView
+import com.dino.library.util.EndlessRecyclerViewScrollListener
 import com.repo.gitawards.BaseRecyclerView
 import com.repo.gitawards.R
 import com.repo.gitawards.base.BaseFragment
@@ -19,6 +21,28 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
+    // paging
+    private val endScrollListener : RecyclerView.OnScrollListener by lazy {
+        object : EndlessRecyclerViewScrollListener(binding.rvGithub.layoutManager!!) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                viewModel.loadMore(page)
+            }
+        }
+//        object : RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//                when(binding.rvGithub.canScrollVertically(1)) {
+//                    true -> ""
+//                    false -> viewModel.loadMore(page = 0)
+//                }
+//            }
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//            }
+//        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -27,7 +51,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         // 바인딩 설정
         initBinding()
 //        progressOn()
-        viewModel.load("")
+        viewModel.load("",0)
     }
 
     fun initEventHandler() {
@@ -53,6 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         }
                     }
                 }
+                addOnScrollListener(endScrollListener)
             }
         }
     }
@@ -62,7 +87,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.includeAppbar.edtSearchInput.apply {
             // 입력 완료 이벤트
             setOnEditorActionListener { textView, i, keyEvent ->
-                viewModel.load(binding.includeAppbar.edtSearchInput.text.toString())
+                viewModel.load(binding.includeAppbar.edtSearchInput.text.toString(),0)
                 context?.hideKeyboard(textView)
                 true
             }
@@ -92,7 +117,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     fun refresh() {
         binding.srlRefresh.setOnRefreshListener {
-            //viewModel.load("kotlin")
+            viewModel.refresh()
             srl_refresh.isRefreshing = false
         }
     }
@@ -111,7 +136,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     setAll()
                     context?.hideKeyboard(binding.includeAppbar.edtSearchInput) // 키보드를 숨긴다.
                 }
-                false -> {
+                false,null -> {
                     (activity as MainActivity).open()
                 }
             }

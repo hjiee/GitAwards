@@ -37,10 +37,11 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 
     override fun listLoad(
         type : String,
+        page : Int,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable {
-        return githubApi.getRepositories2("language:${type}", "star", "desc")
+        return githubApi.getRepositories2("language:${type}", "star", "desc",page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
