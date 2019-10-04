@@ -12,7 +12,7 @@ interface GithubDataSource {
 //    )
 
     fun listLoad(
-        type : String,
+        type : String?,
         page : Int,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit

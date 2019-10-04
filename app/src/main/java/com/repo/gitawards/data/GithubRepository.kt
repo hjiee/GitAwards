@@ -36,7 +36,7 @@ class GithubRepository(val githubApi: GithubApi) : GithubDataSource {
 //    }
 
     override fun listLoad(
-        type : String,
+        type : String?,
         page : Int,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
