@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="language">
-        <item></item>
+    <array name="code_language">
         <item>ABAP</item>
         <item>ActionScript</item>
         <item>Ada</item>

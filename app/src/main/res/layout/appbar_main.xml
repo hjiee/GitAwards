@@ -7,7 +7,7 @@
 
         <import type="android.view.View" />
 
-        <!--포커스-->
+        <!--입력창 포커스-->
         <variable
             name="hasFocus"
             type="Boolean" />
@@ -17,12 +17,16 @@
             name="isEmpty"
             type="Boolean" />
 
+        <!--입력창 visiable-->
+        <variable
+            name="isVisiable"
+            type="Boolean" />
+
 
         <variable
             name="vm"
             type="com.repo.gitawards.ui.main.MainViewModel" />
     </data>
-
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -74,10 +78,13 @@
                         android:hint="search"
                         android:imeOptions="actionSearch"
                         android:singleLine="true"
-                        android:visibility="@{hasFocus ? View.VISIBLE : View.INVISIBLE}"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        android:visibility="@{isVisiable ? View.VISIBLE : View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/ib_toggle"
-                        app:layout_constraintRight_toLeftOf="@+id/ib_search"
+                        app:layout_constraintRight_toLeftOf="@+id/ib_clear"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
