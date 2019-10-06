@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.repo.gitawards.network.api.GithubApi
 import com.repo.gitawards.ui.main.MainViewModel
+import com.repo.gitawards.util.listener.OnBackPressedListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.koin.android.ext.android.inject
@@ -18,6 +19,8 @@ abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : A
     val networkModel by inject<GithubApi>()
     val viewModel by inject<MainViewModel>()
 
+    var backPressedListener : OnBackPressedListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,12 +31,28 @@ abstract class BaseActivity<B : ViewDataBinding>(private val layoutId : Int) : A
     }
 
     override fun onBackPressed() {
-        if (binding.root.drawer.isDrawerOpen(GravityCompat.START)) {
+        if(binding.root.drawer.isDrawerOpen(GravityCompat.START))
+        {
             binding.root.drawer.closeDrawer(GravityCompat.START)
+
         }
         else {
-            super.onBackPressed()
+            if(backPressedListener != null)
+                backPressedListener?.onBackpressed()
+            else
+                super.onBackPressed()
         }
     }
+
+
+    fun setBackPressed(listener: OnBackPressedListener) {
+        backPressedListener = listener
+    }
+    fun removeBackPressed() {
+        backPressedListener = null
+    }
+
+
+
 
 }
