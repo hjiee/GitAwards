@@ -1,10 +1,10 @@
 package com.repo.gitawards.ui.main
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.dino.library.util.EndlessRecyclerViewScrollListener
@@ -13,36 +13,40 @@ import com.repo.gitawards.R
 import com.repo.gitawards.base.BaseFragment
 import com.repo.gitawards.databinding.FragmentMainBinding
 import com.repo.gitawards.databinding.RecyclerItemBinding
+import com.repo.gitawards.ext.replaceFragment
+import com.repo.gitawards.ext.replaceFragmentStack
 import com.repo.gitawards.network.model.GithubResponse
+import com.repo.gitawards.ui.search.SearchFragment
 import com.repo.gitawards.util.LogUtil.Companion.Loge
-import com.repo.gitawards.ext.hideKeyboard
-import com.repo.gitawards.ext.showKeyboard
+import kotlinx.android.synthetic.main.appbar_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.recycler_item.view.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
+    val viewModel by viewModel<MainViewModel>()
+
     // paging
-    private val endScrollListener : RecyclerView.OnScrollListener by lazy {
+    private val endScrollListener: RecyclerView.OnScrollListener by lazy {
         object : EndlessRecyclerViewScrollListener(binding.rvGithub.layoutManager!!) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 viewModel.loadMore(page)
             }
+
         }
-//        object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                when(binding.rvGithub.canScrollVertically(1)) {
-//                    true -> ""
-//                    false -> viewModel.loadMore(page = 0)
-//                }
-//            }
-//
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//            }
-//        }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // 검색한 값을 설정한다. defalut = ""
+        arguments.apply {
+            (this?.get(R.string.search_input.toString()) ?: "").let {
+                viewModel.setSearchText(it.toString())
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,13 +55,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         // 바인딩 설정
         initBinding()
 //        progressOn()
-        viewModel.load("",0)
+
+        viewModel.load()
     }
 
     fun initEventHandler() {
         refresh()
         buttonClick()
-        editInputChanged()
     }
 
     fun initBinding() {
@@ -73,47 +77,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerItemBinding> {
                         return super.onCreateViewHolder(parent, viewType).apply {
-//
+                            itemView.tv_rank.text = this.let { adapterPosition.plus(1).toString() }
                         }
                     }
                 }
                 addOnScrollListener(endScrollListener)
             }
+            edt_search_input.apply {
+                binding.includeAppbar.isVisiable = true
+                clearFocus()
+//                isFocusable = false
+//                isClickable = false
+//                isLongClickable = false
+                isFocusableInTouchMode = false
+//                viewModel.setSearchText(viewModel.searchText.value.toString())
+                setText(viewModel.searchText.value)
+            }
+            arguments?.get(R.string.search_input.toString()).apply {
+                if(this !=null) {
+                    includeAppbar.isEmpty = false
+                }
+            }
+
         }
     }
 
-    fun editInputChanged() {
-        // 검색버튼
-        binding.includeAppbar.edtSearchInput.apply {
-            // 입력 완료 이벤트
-            setOnEditorActionListener { textView, i, keyEvent ->
-                viewModel.load(binding.includeAppbar.edtSearchInput.text.toString(),0)
-                context?.hideKeyboard(textView)
-                true
-            }
-            // 포커스 변경 이벤트
-            setOnFocusChangeListener { view, hasFocus ->
-                viewModel.changedFocus()
-                Loge(viewModel.stateHasFocus.value.toString())
-            }
-            // 텍스트 변경 이벤트
-            addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(char: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                   when(char.isNullOrEmpty()) {
-                       true -> binding.includeAppbar.isEmpty = true
-                       false -> binding.includeAppbar.isEmpty = false
-                   }
-                }
-            })
-        }
-    }
 
     fun refresh() {
         binding.srlRefresh.setOnRefreshListener {
@@ -125,37 +113,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     fun buttonClick() {
         // x 버튼 클릭
         binding.includeAppbar.ibClear.setOnClickListener {
-            binding.includeAppbar.edtSearchInput.run {
-                setText("")
-            }
+            binding.includeAppbar.edtSearchInput.setText("")
+            binding.includeAppbar.isEmpty = true
+            viewModel.setSearchText("")
+            viewModel.refresh()
+
         }
         // 토글 버튼 클릭
         binding.includeAppbar.ibToggle.setOnClickListener {
-            when(binding.includeAppbar.hasFocus) {
-                true -> {
-                    setAll()
-                    context?.hideKeyboard(binding.includeAppbar.edtSearchInput) // 키보드를 숨긴다.
-                }
-                false,null -> {
-                    (activity as MainActivity).open()
-                }
-            }
+            (activity as MainActivity).open()
         }
         // 검색 버튼 클릭
         binding.includeAppbar.ibSearch.setOnClickListener {
-            binding.includeAppbar.hasFocus = true
-            binding.includeAppbar.edtSearchInput.let {
-                it.visibility = View.VISIBLE
-                it.requestFocus()
-                it.isFocusableInTouchMode = true
-                context?.showKeyboard(it)
+            SearchFragment.newInstance().let {
+                it.arguments = bundleOf(Pair(R.string.search_input.toString(),viewModel.searchText.value))
+                replaceFragment(it, R.id.fl_container)
             }
         }
-    }
-    fun setAll() {
-        binding.includeAppbar.edtSearchInput.setText("")
-        binding.includeAppbar.hasFocus = false
-        binding.includeAppbar.isEmpty = true
     }
 
     companion object {
@@ -164,7 +138,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
             }
         }
-
     }
 }
 

@@ -15,9 +15,6 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     private val _rank = MutableLiveData<String>()
     val rank: LiveData<String> get() = _rank
 
-    private val _searchItem = MutableLiveData<String>()
-    val searchItem : LiveData<String> get() = _searchItem
-
     // refresh면 true / 아니면 false
     private val _rvRefresh = MutableLiveData<Boolean>()
     val rvRefresh : LiveData<Boolean> get() = _rvRefresh.apply { false }
@@ -29,6 +26,10 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     // edit text가 focus를 가지고 있으면 true, 아니면 false
     private val _stateHasFocus = MutableLiveData<Boolean>()
     val stateHasFocus: LiveData<Boolean> get() = _stateHasFocus.apply { false }
+
+    // 검색 값
+    private val _searchText = MutableLiveData<String>()
+    val searchText : LiveData<String> get() = _searchText
 
 
 
@@ -47,19 +48,22 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
 //            })
 //    }
 
+    fun setSearchText(item : String) {
+        _searchText.value = item
+    }
     fun refresh() {
         _rvRefresh.value = true
-        load(_searchItem.value ?: "",page = 0)
+        load()
     }
     fun loadMore(page : Int) {
         _rvRefresh.value = false
-        load(_searchItem.value ?: "",page = page)
+        load(page = page)
     }
-    fun load(language: String,page: Int) {
+    fun load(page: Int = 0) {
         val timeS = System.currentTimeMillis()
 
         repository.listLoad(
-            type = language,
+            type = _searchText.value,
             page = page+1,
             success = { data ->
                 val timeE = System.currentTimeMillis()
@@ -82,7 +86,7 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
                 _stateIsEmpty.value = false
             },
             failure = {
-                LogUtil.Loge("RX Fail : $it")
+//                LogUtil.Loge("RX Fail : $it")
                 _githubInfo.value = emptyList()
                 _stateIsEmpty.value = true
             })
