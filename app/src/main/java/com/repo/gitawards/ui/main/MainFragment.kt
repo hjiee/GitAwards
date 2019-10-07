@@ -77,7 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerItemBinding> {
                         return super.onCreateViewHolder(parent, viewType).apply {
-                            itemView.tv_rank.text = this.let { adapterPosition.plus(1).toString() }
+//                            itemView.tv_rank.text = this.let { adapterPosition.plus(1).toString() }
                         }
                     }
                 }
@@ -86,19 +86,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             edt_search_input.apply {
                 binding.includeAppbar.isVisiable = true
                 clearFocus()
-//                isFocusable = false
-//                isClickable = false
-//                isLongClickable = false
                 isFocusableInTouchMode = false
-//                viewModel.setSearchText(viewModel.searchText.value.toString())
                 setText(viewModel.searchText.value)
             }
-            arguments?.get(R.string.search_input.toString()).apply {
-                if(this !=null) {
-                    includeAppbar.isEmpty = false
+            arguments.apply {
+                (this?.get(R.string.search_input.toString()) ?: "").let {
+                    if (!it.toString().isNullOrEmpty())
+                        binding.includeAppbar.isEmpty = false
                 }
             }
-
         }
     }
 
@@ -126,7 +122,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         // 검색 버튼 클릭
         binding.includeAppbar.ibSearch.setOnClickListener {
             SearchFragment.newInstance().let {
-                it.arguments = bundleOf(Pair(R.string.search_input.toString(),viewModel.searchText.value))
+                it.arguments =
+                    bundleOf(Pair(R.string.search_input.toString(), viewModel.searchText.value))
                 replaceFragment(it, R.id.fl_container)
             }
         }

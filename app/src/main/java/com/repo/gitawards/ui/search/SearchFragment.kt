@@ -6,11 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.library.baseAdapters.BR
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.repo.gitawards.BaseRecyclerView
 import com.repo.gitawards.R
@@ -22,9 +19,9 @@ import com.repo.gitawards.ext.hideKeyboard
 import com.repo.gitawards.ext.replaceFragment
 import com.repo.gitawards.ext.showKeyboard
 import com.repo.gitawards.ui.main.MainFragment
-import com.repo.gitawards.util.FinalVariableUtil.Companion.LanguageViewType
-import com.repo.gitawards.util.listener.ClickEvenetListener
+import com.repo.gitawards.util.listener.ClickEventListener
 import com.repo.gitawards.util.listener.OnBackPressedListener
+import kotlinx.android.synthetic.main.appbar_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.recycler_language.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,8 +30,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
     val viewModel by viewModel<SearchViewModel>()
 
-    private val event: ClickEvenetListener by lazy {
-        object : ClickEvenetListener {
+    private val event: ClickEventListener by lazy {
+        object : ClickEventListener {
             override fun onEvent(view: View) {
                 context?.hideKeyboard(view)
                 MainFragment.newInstance().let {
@@ -173,6 +170,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     }
                 }
                 addOnScrollListener(scroll)
+            }
+            edt_search_input.apply {
+//                binding.includeAppbar.isVisiable = true
+                requestFocus()
+                isFocusable = true
+                isClickable = true
+                isLongClickable = true
+                isFocusableInTouchMode = true
+                context?.showKeyboard(this)
             }
         }
     }

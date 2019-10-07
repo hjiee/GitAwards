@@ -2,21 +2,81 @@ package com.repo.gitawards
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.repo.gitawards.databinding.RecyclerItemBinding
-import com.repo.gitawards.network.model.GithubResponse
+import com.repo.gitawards.util.listener.ClickEventListener
+import com.repo.gitawards.util.listener.ViewHolderListener
 import kotlinx.android.synthetic.main.recycler_item.view.*
 
 class BaseRecyclerView {
-    abstract class Adapter<ITEM : Any, B : ViewDataBinding>(
+
+    abstract class SimpleArrayAdapter<B : ViewDataBinding>(
         private val layoutResId: Int,
-        private val bindingVariableId: Int? = null
+        private val list: List<String>,
+        private val bindingVariableId: Int? = null,
+        private val event: ClickEventListener? = null
+    ) : RecyclerView.Adapter<ViewHolder<B>>() {
+
+
+
+        var items: MutableList<String> = list.toMutableList()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> =
+            object : ViewHolder<B>(
+                layoutResId = layoutResId,
+                parent = parent,
+                bindingVariableId = bindingVariableId,
+                event = event
+            ) {}
+
+        override fun onBindViewHolder(holder: ViewHolder<B>, position: Int) {
+            holder.onBind(items[position])
+
+        }
+
+        override fun getItemCount(): Int = items.size
+
+        fun updateData(newList: List<String>) {
+            val diffUtilCallback =
+                DiffUtil.calculateDiff(com.repo.gitawards.util.DiffUtil(newList, items))
+            diffUtilCallback.dispatchUpdatesTo(this)
+            items.clear()
+            items.addAll(newList)
+        }
+    }
+
+    abstract class ListAdapter<ITEM : Any, B : ViewDataBinding>(
+        private val layoutResId: Int = -1,
+        private val bindingVariableId: Int? = null,
+        private val event: ClickEventListener? = null,
+        diffCallback: DiffUtil.ItemCallback<ITEM>
+    ) : androidx.recyclerview.widget.ListAdapter<ITEM, ViewHolder<B>>(diffCallback) {
+
+        var items = listOf<ITEM>()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> =
+            object : ViewHolder<B>(
+                layoutResId = layoutResId,
+                parent = parent,
+                bindingVariableId = bindingVariableId,
+                event = event
+
+            ) {}
+
+
+        override fun onBindViewHolder(holder: ViewHolder<B>, position: Int) {
+            holder.onBind(items[position])
+        }
+
+
+    }
+
+    abstract class Adapter<ITEM : Any, B : ViewDataBinding>(
+        private val layoutResId: Int = -1,
+        private val bindingVariableId: Int? = null,
+        private val event : ClickEventListener? = null
     ) : RecyclerView.Adapter<ViewHolder<B>>() {
 
         var items = listOf<ITEM>()
@@ -26,8 +86,10 @@ class BaseRecyclerView {
             object : ViewHolder<B>(
                 layoutResId = layoutResId,
                 parent = parent,
-                bindingVariableId = bindingVariableId
-            ) { }
+                bindingVariableId = bindingVariableId,
+                event = event
+
+            ) {}
 
 
         override fun getItemCount(): Int = items.size
@@ -46,23 +108,30 @@ class BaseRecyclerView {
 
     abstract class ViewHolder<out B : ViewDataBinding>(
         private val layoutResId: Int,
-        private val parent : ViewGroup,
-        private val bindingVariableId : Int? = null
-    ) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutResId,parent,false)) {
-
-
+        private val parent: ViewGroup,
+        private val bindingVariableId: Int? = null,
+        private val event: ClickEventListener? = null
+    ) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            layoutResId,
+            parent,
+            false
+        )
+    ) {
         init {
             itemView.setOnClickListener {
-                Toast.makeText(binding.root.context, adapterPosition.toString(), Toast.LENGTH_SHORT).show();
+                event?.onEvent(it)
             }
         }
-        val binding : B = DataBindingUtil.bind(itemView)!!
+
+        val binding: B = DataBindingUtil.bind(itemView)!!
 
         fun onBind(item: Any?) {
+            itemView.tv_rank?.text = (adapterPosition+1).toString()
             bindingVariableId?.let {
-                itemView.tv_rank.text = adapterPosition.plus(1).toString()
-                binding.setVariable(bindingVariableId,item)
+                binding.setVariable(bindingVariableId, item)
             }
         }
+
     }
 }
