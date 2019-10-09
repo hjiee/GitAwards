@@ -2,6 +2,7 @@ package com.repo.gitawards
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -23,13 +24,20 @@ class BaseRecyclerView {
 
         var items: MutableList<String> = list.toMutableList()
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> =
-            object : ViewHolder<B>(
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> {
+            val holder = object : ViewHolder<B>(
                 layoutResId = layoutResId,
                 parent = parent,
                 bindingVariableId = bindingVariableId,
                 event = event
+
             ) {}
+
+            holder.itemView.setOnClickListener {
+                event?.onEvent(it)
+            }
+            return holder
+        }
 
         override fun onBindViewHolder(holder: ViewHolder<B>, position: Int) {
             holder.onBind(items[position])
@@ -82,14 +90,20 @@ class BaseRecyclerView {
         var items = listOf<ITEM>()
 
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> =
-            object : ViewHolder<B>(
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> {
+            val holder = object : ViewHolder<B>(
                 layoutResId = layoutResId,
                 parent = parent,
                 bindingVariableId = bindingVariableId,
                 event = event
 
             ) {}
+            holder.itemView.setOnClickListener {
+                Toast.makeText(parent.context, holder.adapterPosition.toString(), Toast.LENGTH_SHORT).show();
+                event?.onEvent(it)
+            }
+            return holder
+        }
 
 
         override fun getItemCount(): Int = items.size
@@ -118,11 +132,6 @@ class BaseRecyclerView {
             false
         )
     ) {
-        init {
-            itemView.setOnClickListener {
-                event?.onEvent(it)
-            }
-        }
 
         val binding: B = DataBindingUtil.bind(itemView)!!
 
