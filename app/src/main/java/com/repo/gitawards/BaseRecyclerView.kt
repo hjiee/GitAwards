@@ -21,7 +21,6 @@ class BaseRecyclerView {
     ) : RecyclerView.Adapter<ViewHolder<B>>() {
 
 
-
         var items: MutableList<String> = list.toMutableList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<B> {

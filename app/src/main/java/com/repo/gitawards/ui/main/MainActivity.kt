@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.repo.gitawards.R
 import com.repo.gitawards.base.BaseActivity
+import com.repo.gitawards.base.BaseFragment
 import com.repo.gitawards.databinding.ActivityMainBinding
 import com.repo.gitawards.databinding.FragmentMainBinding
 import com.repo.gitawards.ext.replaceFragment
@@ -30,6 +32,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         replaceFragment(MainFragment.newInstance(), binding.flContainer.id)
 
         initView()
+    }
+
+    fun setBackpressed() {
+
     }
 
     override fun onBackPressed() {

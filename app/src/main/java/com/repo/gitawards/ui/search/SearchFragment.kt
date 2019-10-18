@@ -166,6 +166,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerLanguageBinding> {
                         return super.onCreateViewHolder(parent, viewType).apply {
+
                         }
                     }
                 }
