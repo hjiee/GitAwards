@@ -3,6 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent2">#FF6BA1</color>
 
 
     <color name="colorTransport">#00000000</color>
@@ -10,5 +11,6 @@
     <color name="colorBlack">#000000</color>
     <color name="colorDark">#424242</color>
 
+    <color name="colorG">#A4C5BA</color>
     <color name="colorRipple">#c9c9c9</color>
 </resources>

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -13,6 +13,16 @@
     <!--Item Text Style-->
     <style name="ItemTextStyle">
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AdViewFontStyle">
+
+    </style>
+    <style name="MaterialButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="cornerRadius">@dimen/border_radious</item>
+        <item name="android:layout_marginRight">5dp</item>
+<!--        <item name="android:backgroundTint">@color/colorWhite</item>-->
+<!--        <item name="android:textColor">@color/colorAccent</item>-->
     </style>
 
 
