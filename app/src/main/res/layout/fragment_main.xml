@@ -51,5 +51,15 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_bottom"
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/ads_test_banner"
+            android:layout_gravity="bottom"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
