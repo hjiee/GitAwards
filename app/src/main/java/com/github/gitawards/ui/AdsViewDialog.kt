@@ -1,13 +1,12 @@
-package com.repo.gitawards.ui
+package com.github.gitawards.ui
 
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialog
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.repo.gitawards.BuildConfig
-import com.repo.gitawards.R
-import com.repo.gitawards.util.LogUtil.Companion.Loge
+import com.github.gitawards.R
+import com.github.gitawards.util.LogUtil.Companion.Loge
 import kotlinx.android.synthetic.main.dialog_ad.*
 
 class AdsViewDialog(context: Context) : AppCompatDialog(context) {
@@ -18,14 +17,11 @@ class AdsViewDialog(context: Context) : AppCompatDialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_ad)
-
+        window?.apply {
+            setBackgroundDrawableResource(R.drawable.border)
+        }
         initEvent()
         adView.apply {
-//            adUnitId =
-//                if (BuildConfig.DEBUG)
-//                    context.getString(R.string.ads_test_banner)
-//                else
-//                    context.getString(R.string.ads_unit)
             AdRequest.Builder().build().let {
                 loadAd(it)
             }
