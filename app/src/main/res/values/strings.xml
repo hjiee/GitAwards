@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">GitAwards</string>
+    <!--광고-->
+    <string name="ads_id">ca-app-pub-8639043459373611~6153946247</string>
+    <string name="ads_unit">ca-app-pub-8639043459373611/8372915474</string>
+    <string name="ads_test_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ads_test_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ads_test_interstitial_video">ca-app-pub-3940256099942544/8691691433</string>
+    <string name="ads_test_rewarded_video">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ads_test_native_advanced">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="ads_test_native_advanced_video">ca-app-pub-3940256099942544/1044960115</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,4 +17,8 @@
 
     <string name="search_input">Search Input</string>
     <string name="search_language">language</string>
+
+    <string name="cancel">CANCEL</string>
+    <string name="exit">EXIT</string>
+    <string name="title">Are you sure you want to exit?</string>
 </resources>

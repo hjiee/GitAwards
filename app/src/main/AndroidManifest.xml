@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.repo.gitawards">
+          package="com.github.gitawards">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:name=".base.BaseApplication"
+
+            android:name="com.github.gitawards.base.BaseApplication"
             android:allowBackup="true"
             android:icon="@mipmap/octocat"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name="com.repo.gitawards.ui.main.SplashActivity">
+
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8639043459373611~6153946247"/>
+
+        <activity android:name="com.github.gitawards.ui.main.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MainActivity"/>
+        <activity android:name="com.github.gitawards.ui.main.MainActivity"/>
     </application>
 
 </manifest>

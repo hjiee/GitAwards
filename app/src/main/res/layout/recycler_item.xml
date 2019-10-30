@@ -6,10 +6,10 @@
     <data>
         <variable
             name="vm"
-            type="com.repo.gitawards.ui.main.MainViewModel" />
+            type="com.github.gitawards.ui.main.MainViewModel" />
         <variable
             name="response"
-            type="com.repo.gitawards.network.model.GithubResponse.Items" />
+            type="com.github.gitawards.network.model.GithubResponse.Items" />
 
     </data>
 
