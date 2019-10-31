@@ -9,6 +9,7 @@ import com.github.gitawards.util.LogUtil
 
 class MainViewModel(private val repository: GithubRepository) : BaseViewModel() {
 
+    private val EXTRA_DEFAULT_LANGUADE = "javascript"
     private val _githubInfo = MutableLiveData<List<Items>>()
     val githubInfo: LiveData<List<Items>> get() = _githubInfo
 
@@ -63,7 +64,7 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
         val timeS = System.currentTimeMillis()
 
         repository.listLoad(
-            type = _searchText.value,
+            type = if(_searchText.value.isNullOrEmpty()) EXTRA_DEFAULT_LANGUADE else _searchText.value,
             page = page+1,
             success = { data ->
                 val timeE = System.currentTimeMillis()
