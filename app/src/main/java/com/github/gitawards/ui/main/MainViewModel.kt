@@ -33,22 +33,6 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     val searchText : LiveData<String> get() = _searchText
 
 
-
-//    fun loadData() {
-//        val timeS = System.currentTimeMillis()
-//
-//        repository.listLoad (
-//            success = { data ->
-//                val timeE = System.currentTimeMillis()
-//                val time = timeE - timeS
-//                LogUtil.Loge("NO RX($time) : $data")
-//                _githubInfo.value = data
-//            },
-//            failure = {
-//                LogUtil.Loge("NO RX Fail : $it")
-//            })
-//    }
-
     fun setSearchText(item : String) {
         _searchText.value = item
     }
