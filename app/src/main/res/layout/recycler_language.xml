@@ -9,7 +9,7 @@
 
         <variable
             name="searchItem"
-            type="com.github.gitawards.ui.search.SearchFragment" />
+            type="com.github.gitawards.ui.search.SearchLanguageFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

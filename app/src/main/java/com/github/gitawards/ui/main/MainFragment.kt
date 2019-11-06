@@ -15,7 +15,7 @@ import com.github.gitawards.databinding.FragmentMainBinding
 import com.github.gitawards.databinding.RecyclerItemBinding
 import com.github.gitawards.ext.replaceFragment
 import com.github.gitawards.network.model.GithubResponse
-import com.github.gitawards.ui.search.SearchFragment
+import com.github.gitawards.ui.search.SearchLanguageFragment
 import kotlinx.android.synthetic.main.appbar_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,7 +36,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 검색한 값을 설정한다. defalut = ""
+//         검색한 값을 설정한다. defalut = ""
         arguments.apply {
             (this?.get(R.string.search_input.toString()) ?: "").let {
                 viewModel.setSearchText(it.toString())
@@ -123,7 +123,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
         // 검색 버튼 클릭
         binding.includeAppbar.ibSearch.setOnClickListener {
-            SearchFragment.newInstance().let {
+            SearchLanguageFragment.newInstance().let {
                 it.arguments =
                     bundleOf(Pair(R.string.search_input.toString(), viewModel.searchText.value))
                 replaceFragment(it, R.id.fl_container)
