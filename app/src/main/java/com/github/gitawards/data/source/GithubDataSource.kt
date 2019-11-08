@@ -1,19 +1,23 @@
 package com.github.gitawards.data.source
 
-import com.github.gitawards.network.model.GithubResponse.Items
+import com.github.gitawards.network.model.GithubLanguageResponse.Items
 import io.reactivex.disposables.Disposable
 
 interface GithubDataSource {
 
-//    fun listLoad(
-//        success: (List<Items>?) -> Unit,
-//        failure: (String) -> Unit
-//    )
-
-    fun listLoad(
+    fun loadLanguage(
         type : String?,
         page : Int,
         success: (List<Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable
+
+//    fun loadRepositiory() : Disposable
+
+    fun loadUser(
+        type : String?,
+        page : Int,
+        success: (List<Items>?) -> Unit,
+        failure: (String) -> Unit
+    ) : Disposable
 }
