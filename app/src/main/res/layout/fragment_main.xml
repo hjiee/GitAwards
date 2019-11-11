@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.github.gitawards.ui.main.MainViewModel" />
+            type="com.github.gitawards.ui.github.language.LanguageViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

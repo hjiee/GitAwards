@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.github.gitawards.ui.main.MainViewModel" />
+            type="com.github.gitawards.ui.github.language.LanguageViewModel" />
         <variable
             name="response"
             type="com.github.gitawards.network.model.GithubResponse.Items" />
