@@ -1,6 +1,6 @@
 package com.github.gitawards.network.api
 
-import com.github.gitawards.network.model.GithubResponse
+import com.github.gitawards.network.model.GithubLanguageResponse
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,22 +10,42 @@ interface GithubApi {
 
     // repository
     // https://developer.github.com/v3/search/#search-users
+//    @GET("search/repositories")
+//    fun getRepositories(
+//        @Query("q") q : String,
+//        @Query("sort") sort : String,
+//        @Query("order") order : String
+//    ) : Call<GithubResponse>
+
+
+    // language
+    // https://developer.github.com/v3/search/#search-users
     @GET("search/repositories")
-    fun getRepositories(
+    fun getLanguage(
         @Query("q") q : String,
         @Query("sort") sort : String,
-        @Query("order") order : String
-    ) : Call<GithubResponse>
+        @Query("order") order : String,
+        @Query("page") page : Int
+    ) : Single<GithubLanguageResponse>
 
 
     // repository
     // https://developer.github.com/v3/search/#search-users
     @GET("search/repositories")
-    fun getRepositories2(
+    fun getRepositories(
         @Query("q") q : String,
         @Query("sort") sort : String,
         @Query("order") order : String,
         @Query("page") page : Int
-    ) : Single<GithubResponse>
+    ) : Single<GithubLanguageResponse>
 
+    // repository
+    // https://developer.github.com/v3/search/#search-users
+    @GET("search/users")
+    fun getUsers(
+        @Query("q") q : String,
+        @Query("sort") sort : String,
+        @Query("order") order : String,
+        @Query("page") page : Int
+    ) : Single<GithubLanguageResponse>
 }
