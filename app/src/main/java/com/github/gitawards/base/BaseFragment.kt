@@ -8,12 +8,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
+import com.github.gitawards.databinding.FragmentMainBinding
 import com.github.gitawards.util.listener.OnBackPressedListener
 
-open class BaseFragment<B : ViewDataBinding>(
+open abstract class BaseFragment<B : ViewDataBinding>(
     private val layoutId : Int
 ) : Fragment(),OnBackPressedListener {
 
+
+    abstract fun initEventHandler()
+    abstract fun initBinding()
 
     lateinit var binding : B
     lateinit var lottie : LottieAnimationView
@@ -40,9 +44,13 @@ open class BaseFragment<B : ViewDataBinding>(
 
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this@BaseFragment
+
+        initEventHandler()
+        initBinding()
     }
 
     override fun onBackpressed() {
