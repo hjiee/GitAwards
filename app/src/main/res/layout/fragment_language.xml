@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.github.gitawards.ui.github.users.UserViewModel" />
+            type="com.github.gitawards.ui.github.language.LanguageViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -42,7 +42,7 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_github"
+                android:id="@+id/rv_github_language"
                 bindItems="@{vm.githubInfo}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

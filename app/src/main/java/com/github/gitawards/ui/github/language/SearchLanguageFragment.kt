@@ -1,4 +1,4 @@
-package com.github.gitawards.ui.search
+package com.github.gitawards.ui.github.language
 
 import android.content.Context
 import android.os.Bundle
@@ -13,28 +13,26 @@ import com.github.gitawards.BaseRecyclerView
 import com.github.gitawards.R
 import com.github.gitawards.base.BaseActivity
 import com.github.gitawards.base.BaseFragment
-import com.github.gitawards.databinding.FragmentSearchBinding
+import com.github.gitawards.databinding.FragmentLanguageBinding
 import com.github.gitawards.databinding.RecyclerLanguageBinding
 import com.github.gitawards.ext.hideKeyboard
 import com.github.gitawards.ext.replaceFragment
 import com.github.gitawards.ext.showKeyboard
-import com.github.gitawards.ui.main.MainFragment
 import com.github.gitawards.util.listener.ClickEventListener
 import com.github.gitawards.util.listener.OnBackPressedListener
 import kotlinx.android.synthetic.main.appbar_main.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.recycler_language.view.*
+import kotlinx.android.synthetic.main.recycler_search_language.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+class SearchLanguageFragment : BaseFragment<FragmentLanguageBinding>(R.layout.fragment_language) {
 
-    val viewModel by viewModel<SearchViewModel>()
+    val viewModel by viewModel<LanguageViewModel>()
 
     private val event: ClickEventListener by lazy {
         object : ClickEventListener {
             override fun onEvent(view: View) {
                 context?.hideKeyboard(view)
-                MainFragment.newInstance().let {
+                LanguagesFragment.newInstance().let {
                     it.arguments =
                         bundleOf(Pair(R.string.search_input.toString(), view.tv_language.text))
                     replaceFragment(it, R.id.fl_container)
@@ -59,7 +57,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     private val backKey by lazy {
         object : OnBackPressedListener {
             override fun onBackpressed() {
-                MainFragment.newInstance().let {
+                LanguagesFragment.newInstance().let {
                     it.arguments =
                         bundleOf(Pair(R.string.search_input.toString(), arguments?.get(R.string.search_input.toString()).toString()))
                     replaceFragment(it, R.id.fl_container)
@@ -76,9 +74,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 이벤트 설정
-        initEventHandler()
+//        initEventHandler()
         // 바인딩 설정
-        initBinding()
+//        initBinding()
     }
 
     override fun onAttach(context: Context) {
@@ -91,7 +89,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         (activity as BaseActivity<*>).removeBackPressed()
     }
 
-    fun initEventHandler() {
+    override fun initEventHandler() {
         buttonClick()
         editInputChanged()
 
@@ -114,7 +112,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         // 토글 버튼
         binding.includeAppbar.ibToggle.setOnClickListener {
             context?.hideKeyboard(it)
-            replaceFragment(MainFragment.newInstance(), R.id.fl_container)
+            replaceFragment(LanguagesFragment.newInstance(), R.id.fl_container)
         }
 
     }
@@ -126,7 +124,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             setOnEditorActionListener { textView, i, keyEvent ->
                 context?.hideKeyboard(textView)
 
-                MainFragment.newInstance().let {
+                LanguagesFragment.newInstance().let {
                     it.arguments = bundleOf(Pair(R.string.search_input.toString(), this.text))
                     replaceFragment(it, R.id.fl_container)
                 }
@@ -152,11 +150,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
 
-    fun initBinding() {
+    override fun initBinding() {
         binding.run {
-            rv_search_language.apply {
+            rvGithubLanguage.apply {
                 adapter = object : BaseRecyclerView.SimpleArrayAdapter<RecyclerLanguageBinding>(
-                    R.layout.recycler_language,
+                    R.layout.recycler_search_language,
                     resources.getStringArray(R.array.code_language).toList(),
                     BR.item,
                     event
@@ -186,7 +184,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
 
     companion object {
-        fun newInstance() = SearchFragment().apply {
+        fun newInstance() = SearchLanguageFragment().apply {
             arguments = Bundle().apply {
 
             }
