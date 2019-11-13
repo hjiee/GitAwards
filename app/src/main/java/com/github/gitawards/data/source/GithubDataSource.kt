@@ -1,6 +1,8 @@
 package com.github.gitawards.data.source
 
-import com.github.gitawards.network.model.GithubLanguageResponse.Items
+import com.github.gitawards.network.model.GithubResponse
+import com.github.gitawards.network.model.UserResponse
+import com.github.gitawards.network.model.UserSearchResponse
 import io.reactivex.disposables.Disposable
 
 interface GithubDataSource {
@@ -8,7 +10,7 @@ interface GithubDataSource {
     fun loadLanguage(
         type : String?,
         page : Int,
-        success: (List<Items>?) -> Unit,
+        success: (List<GithubResponse.Items>?) -> Unit,
         failure: (String) -> Unit
     ): Disposable
 
@@ -17,7 +19,14 @@ interface GithubDataSource {
     fun loadUser(
         type : String?,
         page : Int,
-        success: (List<Items>?) -> Unit,
+        success: (List<UserResponse.Items>?) -> Unit,
+        failure: (String) -> Unit
+    ) : Disposable
+
+    fun searchUser(
+        since : String,
+        page : Int,
+        success : (List<UserSearchResponse>?) -> Unit,
         failure: (String) -> Unit
     ) : Disposable
 }
