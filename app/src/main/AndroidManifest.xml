@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name="com.github.gitawards.ui.main.MainActivity"/>
+        <activity android:name=".ui.LoginActivity"/>
     </application>
 
 </manifest>
