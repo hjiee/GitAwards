@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.gitawards.base.BaseViewModel
 import com.github.gitawards.data.GithubRepository
-import com.github.gitawards.network.model.GithubResponse.Items
+import com.github.gitawards.network.model.GithubResponse
 import com.github.gitawards.util.LogUtil
 
 class MainViewModel(private val repository: GithubRepository) : BaseViewModel() {
 
     private val EXTRA_DEFAULT_LANGUADE = "javascript"
-    private val _githubInfo = MutableLiveData<List<Items>>()
-    val githubInfo: LiveData<List<Items>> get() = _githubInfo
+    private val _githubInfo = MutableLiveData<List<GithubResponse.Items>>()
+    val githubInfo: LiveData<List<GithubResponse.Items>> get() = _githubInfo
 
     private val _rank = MutableLiveData<String>()
     val rank: LiveData<String> get() = _rank
@@ -47,7 +47,7 @@ class MainViewModel(private val repository: GithubRepository) : BaseViewModel() 
     fun load(page: Int = 0) {
         val timeS = System.currentTimeMillis()
 
-        repository.listLoad(
+        repository.loadLanguage(
             type = if(_searchText.value.isNullOrEmpty()) EXTRA_DEFAULT_LANGUADE else _searchText.value,
             page = page+1,
             success = { data ->

@@ -12,17 +12,18 @@ import com.github.gitawards.BaseRecyclerView
 import com.github.gitawards.R
 import com.github.gitawards.base.BaseFragment
 import com.github.gitawards.databinding.FragmentMainBinding
-import com.github.gitawards.databinding.RecyclerItemBinding
+import com.github.gitawards.databinding.RecyclerSearchLanguageBinding
 import com.github.gitawards.ext.replaceFragment
 import com.github.gitawards.network.model.GithubResponse
-import com.github.gitawards.ui.search.SearchLanguageFragment
+import com.github.gitawards.ui.github.language.SearchLanguageFragment
+import com.github.gitawards.ui.github.language.LanguageViewModel
 import kotlinx.android.synthetic.main.appbar_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
-    val viewModel by viewModel<MainViewModel>()
+    val viewModel by viewModel<LanguageViewModel>()
 
     // paging
     private val endScrollListener: RecyclerView.OnScrollListener by lazy {
@@ -48,9 +49,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         // 이벤트 설정
-        initEventHandler()
+//        initEventHandler()
         // 바인딩 설정
-        initBinding()
+//        initBinding()
 //        progressOn()
 
         ad_bottom.apply {
@@ -61,23 +62,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         viewModel.load()
     }
 
-    fun initEventHandler() {
+    override fun initEventHandler() {
         refresh()
         buttonClick()
     }
 
-    fun initBinding() {
+    override fun initBinding() {
         binding.run {
             vm = viewModel
             rv_github.apply {
-                adapter = object : BaseRecyclerView.Adapter<GithubResponse, RecyclerItemBinding>(
-                    R.layout.recycler_item,
+                adapter = object : BaseRecyclerView.Adapter<GithubResponse, RecyclerSearchLanguageBinding>(
+                    R.layout.recycler_language,
                     BR.response
                 ) {
                     override fun onCreateViewHolder(
                         parent: ViewGroup,
                         viewType: Int
-                    ): BaseRecyclerView.ViewHolder<RecyclerItemBinding> {
+                    ): BaseRecyclerView.ViewHolder<RecyclerSearchLanguageBinding> {
                         return super.onCreateViewHolder(parent, viewType).apply {
 //                            itemView.tv_rank.text = this.let { adapterPosition.plus(1).toString() }
                         }
