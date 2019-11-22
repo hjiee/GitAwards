@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDialog
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.github.gitawards.R
-import com.github.gitawards.util.LogUtil.Companion.Loge
+import com.github.gitawards.util.LogUtil.Companion.LogE
 import kotlinx.android.synthetic.main.dialog_ad.*
 
 class AdsViewDialog(context: Context) : AppCompatDialog(context) {
@@ -29,32 +29,32 @@ class AdsViewDialog(context: Context) : AppCompatDialog(context) {
             adListener = object : AdListener() {
                 override fun onAdImpression() {
                     super.onAdImpression()
-                    Loge("onAdImpression")
+                    LogE("onAdImpression")
                 }
 
                 override fun onAdLeftApplication() {
                     super.onAdLeftApplication()
-                    Loge("onAdLeftApplication")
+                    LogE("onAdLeftApplication")
                 }
 
                 override fun onAdClicked() {
                     super.onAdClicked()
-                    Loge("onAdClicked")
+                    LogE("onAdClicked")
                 }
 
                 override fun onAdClosed() {
                     super.onAdClosed()
-                    Loge("onAdClosed")
+                    LogE("onAdClosed")
                 }
 
                 override fun onAdOpened() {
                     super.onAdOpened()
-                    Loge("onAdOpened")
+                    LogE("onAdOpened")
                 }
 
                 override fun onAdLoaded() {
                     super.onAdLoaded()
-                    Loge("onAdLoaded")
+                    LogE("onAdLoaded")
                 }
 
                 /**
@@ -66,7 +66,7 @@ class AdsViewDialog(context: Context) : AppCompatDialog(context) {
                  */
                 override fun onAdFailedToLoad(errorCode: Int) {
                     super.onAdFailedToLoad(errorCode)
-                    Loge("onAdFailedToLoad : $errorCode")
+                    LogE("onAdFailedToLoad : $errorCode")
                 }
             }
         }
